@@ -1,0 +1,29 @@
+<div class="page-container" *ngIf="!isLoading && jobDetails; else loadingTemplate">
+  <div class="page-container">
+    <div class="row">
+      <div class="col-md-12">
+<div>
+    <button (click)="goBack()">Back</button>
+    <div>
+      <img [src]="jobDetails.companyLogo" alt="logo" style="width:10%">
+    </div>
+    <div>
+      <h3>{{jobDetails.companyName}}-{{jobDetails.title}}</h3>
+      <span class="chip">{{jobDetails.industries[0]}}</span> <span class="chip">{{jobDetails.types[0]}}</span>
+    </div>
+    <div>
+        <p><span class="pl-bold">Published Date: </span>{{ jobDetails.publishDate | date: 'M/d/yy' }}</p>
+        <p><span class="pl-bold">Location : </span>{{jobDetails.location}}</p>
+        <p><span class="pl-bold">Reference: </span>{{jobDetails.reference}}</p>
+        <p class="pl-bold">Description:</p>
+        <p [innerHTML]="jobDetails.description"></p>
+      </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loader">Loading...</div>
+</ng-template>
