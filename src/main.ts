@@ -1,5 +1,3 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app.component';
 import {setupWorker} from 'msw/browser';
 import {http, HttpResponse} from 'msw';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -304,11 +302,11 @@ const handlers = [
     );
   }),
 ];
-export const worker = setupWorker(...handlers);
-worker.start();
 
-  // Start the MSW worker before bootstrapping AppModule
-  worker.start().then(() => {
-    platformBrowserDynamic().bootstrapModule(AppModule)
+
+setupWorker(...handlers).start()
+  .then(() => {
+    platformBrowserDynamic().bootstrapModule(AppModule) 
       .catch(err => console.error(err));
-  });
+  })
+  .catch(err => console.error(err));
