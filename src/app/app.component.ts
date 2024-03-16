@@ -1,13 +1,14 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { Job } from './job';
-import { JobApiService } from './services/job-api.service';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule,RouterModule,RouterOutlet], 
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css'
 })
-export class AppComponent  {
+export class AppComponent {
   title = 'ng-job-search';
-
 }

@@ -9,10 +9,10 @@
               <p><span class="pl-bold">Company -</span> {{job.companyName}} <span class="pl-bold">Reference-</span> {{job.reference}}</p> 
             </div>
           </div>
-          <span class="icon-star" 
+          <span class="icon-star"
           [ngClass]="{'active': isFavorite(job.id)}" 
-          (click)="toggleFavorite(job)" 
-          id="star-{{job.id}}">&#9733;</span>
+      (click)="toggleFavorite(job)"
+      id="star-{{job.id}}">&#9733;</span>
         </div>
       </div>
     </div>

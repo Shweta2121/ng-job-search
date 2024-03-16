@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Job } from '../job';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable() 
+
 export class JobApiService {
   private apiUrl = '/jobs';
 

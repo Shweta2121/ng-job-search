@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { JobApiService } from '../../services/job-api.service';
 import { Job } from '../../job';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-job-details',
   templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.css']
+  styleUrls: ['./job-details.component.css'],
+  standalone: true,
+  imports: [CommonModule,HttpClientModule,RouterModule], 
+  providers: [JobApiService], 
 })
 export class JobDetailsComponent implements OnInit {
   jobDetails: any | undefined;

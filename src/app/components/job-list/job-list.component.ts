@@ -1,25 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { JobApiService } from '../../services/job-api.service';
+import { Router, RouterModule } from '@angular/router';
 import { Job } from '../../job';
-import { FavouriteService } from '../../services/favourite.service';
+import { JobApiService } from '../../services/job-api.service';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedService } from '../../services/shared.service';
+
 
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
-  styleUrls: ['./job-list.component.css']
+  styleUrls: ['./job-list.component.css'],
+  standalone: true,
+  imports: [CommonModule,HttpClientModule,RouterModule], 
+  providers: [JobApiService], // Provide services here
 })
 export class JobListComponent implements OnInit {
   jobList: Job[] = [];
   favoriteJobs: Job[] = [];
 
-  constructor(private jobApiService: JobApiService, private router: Router,private favoriteService:FavouriteService) {}
+  constructor(private jobApiService: JobApiService, private router: Router,
+    private sharedDataService:SharedService) {}
 
   ngOnInit(): void {
     this.loadJobList();
-    this.favoriteJobs = this.favoriteService.getFavoriteJobs(); // Initialize favoriteJobs
+    this.sharedDataService.favoriteJobs$.subscribe(jobs => {
+      this.favoriteJobs = jobs;
+      console.log(this.favoriteJobs );
+  });
   }
-
   loadJobList() {
     this.jobApiService.getAllJobs().subscribe({
       next: (data: Job[]) => {
@@ -31,14 +40,23 @@ export class JobListComponent implements OnInit {
     });
   }
 
-  toggleFavorite(job: Job): void {
-    this.favoriteService.toggleFavorite(job);
-    this.favoriteJobs = this.favoriteService.getFavoriteJobs(); // Update favoriteJobs
-  }
+  toggleFavorite(job: Job) {
+    const index = this.favoriteJobs.findIndex(favJob => favJob.id === job.id);
+    if (index !== -1) {
+      // Job already favorited, remove it
+      this.favoriteJobs.splice(index, 1);
+    } else {
+      // Job not favorited, add it to favorites
+      this.favoriteJobs.push(job);
+    }
+    // Pass the updated favoriteJobs to the Favourite component
+    this.sharedDataService.setFavoriteJobs(this.favoriteJobs);
+}
 
-  isFavorite(jobId: number): boolean {
-    return this.favoriteService.isFavorite(jobId); // Check if job is a favorite
-  }
+isFavorite(jobId: number): boolean {
+  return this.favoriteJobs.some(job => job.id === jobId); // Direct check
+}
+
 
   navigateToJobDetails(jobId: number): void {
     this.router.navigate(['/jobs', jobId]);

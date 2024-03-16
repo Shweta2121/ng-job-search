@@ -63,6 +63,7 @@
   color: white; /* Color for the empty star */
 }
 
+
 .job-details {
   flex: 1; /* Take up remaining space */
   display: flex;
