@@ -8,5 +8,6 @@ import { JobApiService } from './services/job-api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent  {
- 
+  title = 'ng-job-search';
+
 }
